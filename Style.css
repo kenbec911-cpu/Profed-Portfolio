@@ -1,0 +1,627 @@
+/* ---------- Tokens ---------- */
+:root {
+    --text: #ffffff;
+    --bg: #05030f;
+    --glass: #ffffff16;
+    --glass-hover: rgba(255, 255, 255, 0.4);
+    --border: rgba(255, 255, 255, 0.5);
+    --purple: #7f95ff;
+    --accent: #0015ff;
+    --glow: rgba(37, 96, 183, 0.6);
+    --glow-card: 0 0 20px #ffffff66, 0 0 40px #001eff78, 0 0 60px #0241ff64;
+    --nav-hover-from: #331544;
+    --nav-hover-to: #5f0dac;
+    --font-display: Arial, sans-serif;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px; /* keeps anchors clear of the fixed header */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--text);
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./Pictures/width_1301.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+}
+
+h1,
+h2 {
+    font-family: var(--font-display);
+}
+
+/* ---------- Header & navigation ---------- */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 12px 0;
+    text-align: center;
+    background: rgb(0, 0, 0);
+    transition: background-color 0.5s ease-in-out;
+}
+
+header:hover {
+    background-color: hwb(0 100% 0% / 0.164);
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 6px;
+}
+
+nav ul li a {
+    display: inline-block;
+    color: var(--text);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li a:focus-visible {
+    color: #e9e9e9;
+    background-image: linear-gradient(to right, var(--nav-hover-from), var(--nav-hover-to));
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgb(129, 74, 231);
+}
+
+/* ---------- HERO ---------- */
+.hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 400px) 1fr;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 4vw;
+    overflow: hidden;
+    background: transparent;
+    font-family: var(--font-display);
+}
+
+.hero__label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-size: clamp(3rem, 1.7vw, 1.6rem);
+    font-weight: 500;
+    color: var(--purple);
+}
+
+.hero__title {
+    font-size: clamp(2.4rem, 5.3vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+}
+
+.hero__left  { justify-self: end;   text-align: left; padding-right: 2vw; }
+.hero__right { justify-self: start; text-align: left; padding-left: 2vw; }
+
+.grad {
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* Portrait + glow */
+.hero__portrait {
+    position: relative;
+    align-self: end;
+    justify-self: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 88vh;
+    z-index: 1;
+}
+
+.hero__left,
+.hero__right {
+    position: relative;
+    z-index: 2;
+}
+
+.hero__portrait::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 120%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--glow) 0%, rgba(37, 96, 183, 0.2) 45%, transparent 70%);
+    filter: blur(30px);
+    animation: pulse 6s ease-in-out infinite;
+}
+
+.hero__portrait img {
+    position: relative;
+    height: 100%;
+    width: auto;           /* keep the photo's natural width so shoulders aren't cut */
+    max-width: none;       /* let it extend past the middle column if it needs to */
+    object-fit: contain;
+    object-position: center bottom;
+    /* Only the bottom edge fades, so the shoulders stay fully visible */
+    -webkit-mask-image: linear-gradient(#000 82%, transparent);
+    mask-image: linear-gradient(#000 82%, transparent);
+}
+
+@keyframes pulse {
+    50% { opacity: 0.7; transform: scale(1.06); }
+}
+
+/* Socials */
+.socials {
+    position: absolute;
+    left: 6vw;
+    bottom: 5vh;          /* moved up so it isn't near the bottom edge of a laptop screen */
+    z-index: 3;            /* sits above the portrait so the icons are always visible */
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    list-style: none;
+}
+
+.socials a {
+    display: block;
+    padding: 6px;          /* bigger tap/click area */
+    color: var(--text);
+    opacity: 1;            /* fully visible */
+    transition: opacity 0.25s, color 0.25s, transform 0.25s;
+}
+
+.socials svg {
+    width: 28px;           /* icon size: try 24px (subtle) to 32px (bold) */
+    height: 28px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.socials a:hover,
+.socials a:focus-visible {
+    color: var(--purple);
+    transform: translateY(-2px);
+}
+
+/* Intro animation */
+.hero__left,
+.hero__right,
+.hero__portrait {
+    animation: rise 0.9s ease-out both;
+}
+
+.hero__right {
+    animation-delay: 0.15s;
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+}
+
+/* ---------- Content sections ---------- */
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 50vh;
+    margin: 20px;
+    padding: clamp(20px, 6vw, 80px);
+    text-align: center;
+    border-radius: 20px;
+    border: 2px solid var(--border);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+}
+
+section p {
+    max-width: 65ch;
+    margin-inline: auto;   /* keeps every paragraph centered in its box */
+    font-size: 1.2rem;      /* default is 1rem (16px) */
+    line-height: 1.7;       /* roomier lines are easier to read */
+}
+
+#about {
+    margin-top: 40px;
+}
+
+#about > * + * {
+    margin-top: 1rem;
+}
+
+#about > .about__role {
+    color: var(--purple);
+    font-weight: 700;
+}
+
+#about > .hobbies-title {
+    margin-top: 3rem;
+}
+
+#about > .wrapper {
+    margin-top: 1.5rem;
+}
+
+#projects > h2,
+#Acknowledgement > h2 {
+    margin-bottom: 1rem;
+}
+
+/* ---------- Hobby accordion ---------- */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    height: 400px;
+}
+
+/* Radios stay in the page (keyboard accessible) but are visually hidden */
+.container input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.cardwrapper {
+    display: flex;
+    align-items: flex-end;
+    width: 80px;
+    margin: 0 10px;
+    border-radius: 2rem;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8);
+    transition: width 0.6s cubic-bezier(0.28, -0.03, 0, 0.99), height 0.6s cubic-bezier(0.28, -0.03, 0, 0.99), box-shadow 0.3s;
+}
+
+.cardwrapper:hover {
+    box-shadow: 0 0 20px #000, 0 0 40px #19089898, 0 0 60px #4a01aa49, 0 0 80px #4a01aa49;
+}
+
+.cardwrapper > .row {
+    display: flex;
+    flex-wrap: nowrap;
+    color: var(--text);
+}
+
+.cardwrapper > .row > .icon {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    margin: 15px;
+    border-radius: 50%;
+    color: rgb(150, 150, 150);
+    background: rgba(21, 5, 48, 0.7);
+}
+
+.cardwrapper > .row > .description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 520px;
+    min-height: 80px;
+    overflow: hidden;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.3s ease 0.3s, transform 0.3s ease 0.3s;
+}
+
+.description p {
+    color: #f8f8f8;
+    padding-top: 5px;
+}
+
+.description h2 {
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+
+.container input:checked + label {
+    width: 600px;
+}
+
+.container input:checked + label .description {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.container input:focus-visible + label {
+    outline: 3px solid var(--text);
+    outline-offset: 3px;
+}
+
+/* Hobby wallpapers */
+.cardwrapper[for="c1"] { background-image: url('Pictures/photo_6082271542453670717_y.jpg'); }
+.cardwrapper[for="c2"] { background-image: url('Pictures/LOL.jpg'); }
+.cardwrapper[for="c3"] { background-image: url('Pictures/photo_6082271542453670704_y.jpg'); }
+.cardwrapper[for="c4"] { background-image: url('Pictures/photo_6082271542453670722_y.jpg'); }
+.cardwrapper[for="c5"] { background-image: url('Pictures/674b3e051909840d88dcce4e6c04cb94.gif'); }
+.cardwrapper[for="c6"] { background-image: url('Pictures/photo_6082271542453670718_y.jpg'); }
+.cardwrapper[for="c7"] { background-image: url('Pictures/rico-blanco-bamboo-ma%C3%B1alac.gif'); }
+
+/* ---------- Activity cards ---------- */
+.c1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 280px;
+    height: 550px;
+    border-radius: 20px;
+    background-color: var(--glass);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.card:hover,
+.card:focus-within {
+    transform: scale(1.05);
+    box-shadow: var(--glow-card);
+    background-color: var(--glass-hover);
+    color: #000;
+}
+
+.icons {
+    width: 100%;
+    height: 320px;
+    object-fit: contain;
+}
+
+.card a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 5px 14px;
+    border-radius: 5px;
+    transition: color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover a,
+.card:focus-within a {
+    color: #000;
+}
+
+.card a:hover,
+.card a:focus-visible {
+    color: #e9e9e9;
+    background-color: var(--accent);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgb(106, 99, 119);
+}
+
+/* Certificate / demo cards */
+.card.certificate-card {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    margin-top: 25px;
+}
+
+.cert-img-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.cert-img-wrapper img {
+    width: 100%;
+    max-width: 750px; /* raise or lower to resize the image */
+    height: auto;
+    object-fit: contain;
+}
+
+.cert-details {
+    width: 100%;
+    padding-top: 15px;
+    text-align: center;
+}
+
+.cert-details a {
+    display: inline-block;
+    margin-top: 0.75rem;
+}
+
+/* ---------- Footer ---------- */
+footer {
+    padding: 20px 0;
+    text-align: center;
+    color: var(--text);
+}
+
+/* ---------- Tablets & phones ---------- */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+    }
+
+    .cardwrapper {
+        width: 100%;
+        height: 90px;
+        margin: 8px 0;
+    }
+
+    .container input:checked + label {
+        width: 100%;
+        height: 280px;
+    }
+
+    .cardwrapper > .row > .description {
+        width: auto;
+        flex: 1;
+        padding-right: 15px;
+    }
+}
+
+@media (max-width: 800px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 80px 6vw 120px;
+        text-align: center;
+    }
+
+    .hero__portrait { order: 1; height: 55vh; }
+    .hero__portrait img { max-width: 100%; }
+    .hero__left  { order: 2; justify-self: center; text-align: center; padding: 0; margin-top: 1.5rem; }
+    .hero__right { order: 3; justify-self: center; text-align: center; padding: 0; margin-top: 1rem; }
+    .hero__title br { display: none; }
+
+    .socials {
+        flex-direction: row;
+        bottom: 5vh;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .socials svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    section {
+        margin: 10px;
+    }
+
+    nav ul li {
+        margin: 0 2px;
+    }
+
+    nav ul li a {
+        padding: 5px 6px;
+        font-size: 0.9rem;
+    }
+}
+
+/* ---------- Respect reduced-motion settings ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* ---------- Web-friendly extras ---------- */
+
+/* Skip link for keyboard & screen-reader users */
+.skip-link {
+    position: absolute;
+    top: -60px;
+    left: 12px;
+    z-index: 2000;
+    padding: 10px 16px;
+    border-radius: 6px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 12px;
+}
+
+/* Clear keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+/* Don't render far-below-the-fold sections until the visitor gets near them */
+#projects,
+#Acknowledgement {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 700px;
+}
+
+/* Phones: a fixed background repaints on every scroll and stutters, so let it scroll */
+@media (max-width: 900px), (hover: none) {
+    body {
+        background-attachment: scroll;
+    }
+
+    section {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        background: rgba(5, 3, 15, 0.55);
+    }
+}
+
+/* Never let content cause sideways scrolling */
+html {
+    overflow-x: hidden;
+}
+
+/* Print: clean black-on-white, no effects */
+@media print {
+    header, .skip-link, .socials { display: none !important; }
+    body { background: #fff !important; color: #000 !important; }
+    section { border: 0 !important; box-shadow: none !important; backdrop-filter: none !important; }
+    .card a::after { content: " (" attr(href) ")"; }
+}
